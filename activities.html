@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gabriel Delgado — Live Activites Coding Hub</title>
+  <link rel="shortcut icon" href="assets/icon2.png" type="image/x-icon">
+
+  <!-- CodeMirror -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/theme/neo.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/htmlmixed/htmlmixed.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/css/css.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/javascript/javascript.min.js"></script>
+
+  <style>
+    :root {
+      --primary-black: #000;
+      --primary-white: #fff;
+      --gray-100: #f8f9fa;
+      --gray-200: #e9ecef;
+      --gray-300: #dee2e6;
+      --gray-400: #ced4da;
+      --gray-500: #adb5bd;
+      --gray-600: #6c757d;
+      --gray-700: #495057;
+      --gray-800: #343a40;
+      --gray-900: #212529;
+      --accent: #111;
+      --bg-primary: var(--primary-white);
+      --text-primary: var(--primary-black);
+      --text-secondary: var(--gray-600);
+      --border-color: var(--gray-300);
+      --card-bg: var(--primary-white);
+    }
+
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      margin: 0;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .tab {
+      background: var(--gray-200);
+      color: var(--text-primary);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .tab.active {
+      background: var(--accent);
+      color: var(--primary-white);
+    }
+
+    .editor-container {
+      width: 100%;
+      max-width: 1100px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin: 0 auto; /* ✅ Center horizontally */
+    }
+
+
+    .code-editors {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto; /* ✅ Keeps grid centered */
+  }
+
+  .editor-container {
+  margin: 0 auto;
+}
+
+.code-editors {
+  margin: 0 auto;
+}
+
+
+
+    .CodeMirror {
+      border: 1px solid var(--gray-300);
+      border-radius: 8px;
+      height: 200px;
+      font-size: 0.9rem;
+      background: var(--gray-100);
+    }
+
+    button {
+      background: var(--accent);
+      color: var(--primary-white);
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.2s ease;
+      align-self: flex-start;
+    }
+
+    button:hover {
+      opacity: 0.8;
+    }
+
+    .preview {
+      border: 1px solid var(--gray-300);
+      border-radius: 8px;
+      height: 400px;
+      background: var(--primary-white);
+    }
+
+    footer {
+      margin-top: 2rem;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    @media (max-width: 768px) {
+      .code-editors {
+        grid-template-columns: 1fr;
+      }
+      .CodeMirror { height: 150px; }
+    }
+
+     /* === Minimalist Loader === */
+  /* === Minimalist Loader === */
+#loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+#loader.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.spinner {
+  width: 10vw;
+  max-width: 60px;
+  height: 10vw;
+  max-height: 60px;
+  border: 0.8vw solid #000;
+  border-top: 0.8vw solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 2vh;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+#loader-text {
+  font-size: 1.5vw;
+  max-font-size: 18px;
+  font-weight: 500;
+  color: #000;
+  text-align: center;
+}
+
+/* === Mobile Adjustments === */
+@media (max-width: 480px) {
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #000;
+    border-top: 4px solid transparent;
+  }
+
+  #loader-text {
+    font-size: 14px;
+  }
+}
+
+  </style>
+</head>
+<body>
+
+    <!-- Loader -->
+    <div id="loader">
+        <div class="spinner"></div>
+        <div id="loader-text">Ready naka mu code ug mag labad imong ulo.....?</div>
+    </div>
+
+    <button id="runBtn" onclick="window.location.href='index.html'">Back</button>
+  <h1>Activities Hub</h1>
+  <p> HTML / CSS / JS Activity — 5 Activities by Ms Hannah</p>
+
+  <div class="tabs">
+    <div class="tab active" data-id="1">Activity 1</div>
+    <div class="tab" data-id="2">Activity 2</div>
+    <div class="tab" data-id="3">Activity 3</div>
+    <div class="tab" data-id="4">Activity 4</div>
+    <div class="tab" data-id="5">Activity 5</div>
+  </div>
+
+  <div class="editor-container">
+    <div class="code-editors">
+      <div>
+        <h3>HTML</h3>
+        <textarea id="htmlCode"></textarea>
+      </div>
+      <div>
+        <h3>CSS</h3>
+        <textarea id="cssCode"></textarea>
+      </div>
+      <div>
+        <h3>JavaScript</h3>
+        <textarea id="jsCode"></textarea>
+      </div>
+    </div>
+    <button id="runBtn">▶ Run Code</button>
+    <iframe id="preview" class="preview"></iframe>
+  </div>
+
+  <footer>© 2025 Gabriel Delgado — BSIT 3A</footer>
+
+  <script>
+    const htmlEditor = CodeMirror.fromTextArea(document.getElementById("htmlCode"), {
+      mode: "htmlmixed",
+      theme: "neo",
+      lineNumbers: true
+    });
+    const cssEditor = CodeMirror.fromTextArea(document.getElementById("cssCode"), {
+      mode: "css",
+      theme: "neo",
+      lineNumbers: true
+    });
+    const jsEditor = CodeMirror.fromTextArea(document.getElementById("jsCode"), {
+      mode: "javascript",
+      theme: "neo",
+      lineNumbers: true
+    });
+
+    const runBtn = document.getElementById("runBtn");
+    const preview = document.getElementById("preview");
+    const tabs = document.querySelectorAll(".tab");
+
+    const activities = [
+      {
+        html: `<!-- Activity 1: Card Hover Expand -->
+<h2>Activity 1: Card Hover Expand</h2>
+<p>Instruction: Make the card expand a bit and show a paragraph when hovered.</p>
+<div class="card">
+  <h3>Hover Me!</h3>
+  <p>WOW NI HOVER</p>
+</div>`,
+        css: `.card {
+  width: 200px;
+  height: 150px;
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  transition: all 0.4s ease;
+  overflow: hidden;
+}
+
+.card p {
+  
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.card:hover {
+  height: 220px;
+}
+
+.card:hover p {
+  opacity: 1;
+}`,
+        js: `// No JavaScript needed`
+      },
+      {
+  html: `<!-- Activity 2: About Me Toggle -->
+<h2>Activity 2: About Me Toggle</h2>
+<p>Instruction: Click the button to show or hide your info.</p>
+
+<div class="card">
+  <img src="https://via.placeholder.com/120" alt="Profile">
+  <h3>Gabriel Delgado</h3>
+  <p>I am a self-made programmer. My passion runs through my blood.</p>
+  <button id="btn-aboutme">About Me</button>
+  <div id="info" class="hide">
+    <p>I enjoy learning new coding techniques and building creative projects.</p>
+  </div>
+</div>`,
+  css: `.card {
+  border: 1px solid #000;
+  border-radius: 8px;
+  padding: 15px;
+  text-align: center;
+  width: 250px;
+  margin: 0 auto;
+  transition: all 0.3s ease;
+}
+
+.card img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.hide {
+  display: none;
+}
+
+button {
+  border: 1px solid #000;
+  background: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+button:hover {
+  background: #000;
+  color: #fff;
+}`,
+  js: `document.addEventListener("DOMContentLoaded", function() {
+  const btn = document.getElementById("btn-aboutme");
+  const info = document.getElementById("info");
+
+  btn.addEventListener("click", function() {
+    if (info.classList.contains("hide")) {
+      info.classList.remove("hide");
+      btn.textContent = "Show Less";
+    } else {
+      info.classList.add("hide");
+      btn.textContent = "About Me";
+    }
+  });
+});`
+},
+      {
+        html: `<!-- Activity 3: Card Image + Dark Mode -->
+<h2>Activity 3: Dark Mode Card</h2>
+<p>Instruction: Toggle dark/light mode with the button.</p>
+<div class="card">
+  <img src="https://via.placeholder.com/200x100" alt="Sample">
+  <p>Image Card Example</p>
+  <button onclick="toggleMode()">Toggle Mode</button>
+</div>`,
+        css: `body {
+  background-color: white;
+  color: black;
+  text-align: center;
+}
+.card {
+  border: 2px solid black;
+  border-radius: 8px;
+  padding: 10px;
+  display: inline-block;
+  background: white;
+}
+.dark {
+  background-color: black;
+  color: white;
+}
+.dark .card {
+  background-color: #222;
+  border-color: white;
+}`,
+        js: `function toggleMode() {
+  document.body.classList.toggle("dark");
+}`
+      },
+      {
+        html: `<h2>Activity 4: Text Toggle</h2>
+<p>Instruction: Click the button to toggle text and theme.</p>
+<h1>Hallo</h1>
+<button onclick="Pchange()">Click Me</button>
+<p id="output">I am Gabriel Pogi</p>`,
+        css: `body.dark { background: black; color: white; }
+body.white { background: white; color: black; }`,
+        js: `const output = document.getElementById('output');
+function Pchange() {
+  if (output.textContent == "I am Gabriel Pogi") {
+    document.body.classList.toggle("dark");
+    output.textContent = "Pogi talaga";
+  } else {
+    document.body.classList.toggle("white");
+    output.textContent = "I am Gabriel Pogi";
+  }
+}`
+      },
+      {
+        html: `<h2>Activity 5: Grocery List</h2>
+<p>Instruction: Add, highlight, or remove items dynamically.</p>
+<ul id="container"></ul>
+<br>
+<input type="text" id="item" placeholder="Enter item">
+<button onclick="addlists()">Add Item</button>
+<button onclick="highlightall()">Highlight All</button>
+<button onclick="removeall()">Remove All</button>`,
+        css: `li {
+  list-style: none;
+  padding: 5px;
+  border-bottom: 1px solid #ccc;
+}
+li.highlight {
+  color: blue;
+  background-color: yellow;
+}`,
+        js: `function addlists() {
+  let list = document.createElement("li");
+  let container = document.getElementById("container");
+  list.textContent = document.getElementById("item").value;
+  container.appendChild(list);
+  document.getElementById("item").value = "";
+}
+
+function highlightall() {
+  let all = document.querySelectorAll("li");
+  if(all.length === 0) {
+    alert("Nothing to highlight");
+  } else {
+    all.forEach(item => item.classList.add("highlight"));
+  }
+}
+
+function removeall() {
+  let container = document.getElementById("container");
+  let listItems = container.querySelectorAll("li");
+  if (listItems.length === 0) {
+    alert("Nothing to delete");
+  } else {
+    listItems.forEach(item => item.remove());
+  }
+}`
+      }
+    ];
+
+    let current = 0;
+
+    function loadActivity(index) {
+      const act = activities[index];
+      htmlEditor.setValue(act.html);
+      cssEditor.setValue(act.css);
+      jsEditor.setValue(act.js);
+    }
+
+    function runCode() {
+      const html = htmlEditor.getValue();
+      const css = `<style>${cssEditor.getValue()}</style>`;
+      const js = `<script>
+        try {
+          ${jsEditor.getValue()}
+        } catch(e) {
+          document.body.innerHTML += '<pre style="color:red;font-family:monospace;">'+ e +'</pre>';
+        }
+      <\/script>`;
+      preview.srcdoc = html + css + js;
+    }
+
+    runBtn.addEventListener("click", runCode);
+
+    tabs.forEach((tab, i) => {
+      tab.addEventListener("click", () => {
+        tabs.forEach(t => t.classList.remove("active"));
+        tab.classList.add("active");
+        current = i;
+        loadActivity(current);
+        runCode();
+      });
+    });
+
+    loadActivity(current);
+    runCode();
+
+     // Keep loader longer (2 seconds) then hide
+        window.addEventListener("load", () => {
+            setTimeout(() => {
+            document.getElementById("loader").classList.add("hidden");
+            }, 2000); // 2000ms = 2 seconds
+        });
+  </script>
+</body>
+</html>

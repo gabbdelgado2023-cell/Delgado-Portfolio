@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Activity 2: About Me Toggle</title>
+  <style>
+    .card {
+      border: 1px solid #000;
+      border-radius: 8px;
+      padding: 15px;
+      text-align: center;
+      width: 250px;
+      margin: 0 auto;
+      transition: all 0.3s ease;
+    }
+
+    .card img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+
+    .hide {
+      display: none;
+    }
+
+    button {
+      border: 1px solid #000;
+      background: none;
+      padding: 6px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background: #000;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <h2>Activity 2: About Me Toggle</h2>
+  <p>Instruction: Click the button to show or hide your info.</p>
+
+  <div class="card">
+    <img src="https://via.placeholder.com/120" alt="Profile">
+    <h3>Gabriel Delgado</h3>
+    <p>I am a self-made programmer. My passion runs through my blood.</p>
+    <button id="btn-aboutme">About Me</button>
+    <div id="info" class="hide">
+      <p>I enjoy learning new coding techniques and building creative projects.</p>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const btn = document.getElementById("btn-aboutme");
+      const info = document.getElementById("info");
+
+      btn.addEventListener("click", function() {
+        if (info.classList.contains("hide")) {
+          info.classList.remove("hide");
+          btn.textContent = "Show Less";
+        } else {
+          info.classList.add("hide");
+          btn.textContent = "About Me";
+        }
+      });
+    });
+  </script>
+</body>
+</html>

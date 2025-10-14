@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Activity 1: Card Hover Expand</title>
+  <style>
+    .card {
+      width: 200px;
+      height: 150px;
+      border: 2px solid black;
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      transition: all 0.4s ease;
+      overflow: hidden;
+    }
+
+    .card p {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .card:hover {
+      height: 220px;
+    }
+
+    .card:hover p {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <h2>Activity 1: Card Hover Expand</h2>
+  <p>Instruction: Make the card expand a bit and show a paragraph when hovered.</p>
+
+  <div class="card">
+    <h3>Hover Me!</h3>
+    <p>WOW NI HOVER</p>
+  </div>
+</body>
+</html>

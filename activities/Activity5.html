@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Activity 5: Grocery List</title>
+  <style>
+    li {
+      list-style: none;
+      padding: 5px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    li.highlight {
+      color: blue;
+      background-color: yellow;
+    }
+
+    input, button {
+      margin: 5px;
+      padding: 5px 10px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Activity 5: Grocery List</h2>
+  <p>Instruction: Add, highlight, or remove items dynamically.</p>
+
+  <ul id="container"></ul>
+  <br>
+  <input type="text" id="item" placeholder="Enter item">
+  <button onclick="addlists()">Add Item</button>
+  <button onclick="highlightall()">Highlight All</button>
+  <button onclick="removeall()">Remove All</button>
+
+  <script>
+    function addlists() {
+      let list = document.createElement("li");
+      let container = document.getElementById("container");
+      list.textContent = document.getElementById("item").value;
+      container.appendChild(list);
+      document.getElementById("item").value = "";
+    }
+
+    function highlightall() {
+      let all = document.querySelectorAll("li");
+      if(all.length === 0) {
+        alert("Nothing to highlight");
+      } else {
+        all.forEach(item => item.classList.add("highlight"));
+      }
+    }
+
+    function removeall() {
+      let container = document.getElementById("container");
+      let listItems = container.querySelectorAll("li");
+      if (listItems.length === 0) {
+        alert("Nothing to delete");
+      } else {
+        listItems.forEach(item => item.remove());
+      }
+    }
+  </script>
+</body>
+</html>

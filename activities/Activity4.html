@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Activity 4: Text Toggle</title>
+  <style>
+    body.dark {
+      background: black;
+      color: white;
+    }
+
+    body.white {
+      background: white;
+      color: black;
+    }
+
+    button {
+      padding: 6px 12px;
+      border-radius: 5px;
+      border: 1px solid black;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body class="white">
+  <h2>Activity 4: Text Toggle</h2>
+  <p>Instruction: Click the button to toggle text and theme.</p>
+  <h1>Hallo</h1>
+  <button onclick="Pchange()">Click Me</button>
+  <p id="output">I am Gabriel Pogi</p>
+
+  <script>
+    const output = document.getElementById('output');
+    function Pchange() {
+      if (output.textContent == "I am Gabriel Pogi") {
+        document.body.classList.toggle("dark");
+        output.textContent = "Pogi talaga";
+      } else {
+        document.body.classList.toggle("white");
+        output.textContent = "I am Gabriel Pogi";
+      }
+    }
+  </script>
+</body>
+</html>
