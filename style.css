@@ -73,7 +73,7 @@
            .hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border-color) 1px, transparent 1px),linear-gradient(90deg,var(--border-color)1px,transparent 1px);background-size:50px 50px;opacity:.22;animation:gridMove 20s linear infinite}
            @keyframes gridMove{0%{transform:translate(0,0)}100%{transform:translate(50px,50px)}}
            .hero-content{text-align:center;z-index:2;position:relative;max-width:1100px;width:100%}
-            .hero.visible {
+           .hero.visible {
             opacity: 1;
             filter: blur(0);
           }
@@ -90,6 +90,8 @@
            .profile-container{position:relative;display:inline-block;margin-bottom:18px}
            .profile-pic{width:150px;height:180px;object-fit:cover;border-radius:10px;border:3px solid var(--border-color);transition:all .3s ease}
            .profile-pic:hover{transform:scale(1.05);border-color:var(--text-primary)}
+           /* Initial hero hidden */
+          
    
            .lace-border{position:absolute;top:-10px;left:-10px;right:-10px;bottom:-10px;border-radius:15px;pointer-events:none;opacity:0;transition:all .3s ease}
            .profile-container:hover .lace-border{opacity:1;animation:lacePulse 2s ease-in-out infinite}
@@ -627,180 +629,236 @@
    position: relative;
  }
  
- /* Title */
- .section-title { color: var(--text-primary); margin-bottom: 36px; font-weight:700; }
- 
- /* wrapper holds svg line + track */
- .carousel-wrapper {
-   position: relative;
-   width: min(1200px, 94%);
-   margin: 0 auto;
-   height: 280px; /* enough space for cards + svg line */
-   display: block;
-   overflow: hidden;
- }
+ /* =========================
+   Section Title
+========================= */
+.section-title {
+  color: var(--text-primary);
+  margin-bottom: 36px;
+  font-weight: 700;
+}
 
- 
- 
- /* SVG line sits behind (slightly above center) */
- .connect-line {
-   position: absolute;
-   left: 50%;
-   top: 44%;
-   transform: translateX(-50%);
-   width: 210%;
-   height: 120px;
-   z-index: 1;
-   pointer-events: none;
-   opacity: 0.9;
-   filter: drop-shadow(0 6px 20px rgba(0,0,0,0.07));
- }
- 
- /* track that scrolls: use transform animation (slow) */
- .carousel-track {
-   position: absolute;
-   left: 0;
-   top: 0;
-   z-index: 2;
-   display: flex;
-   align-items: center;
-   gap: 32px;
-   padding: 40px 20px;
-   will-change: transform;
-   animation: loopScroll 70s linear infinite; /* slow loop */
- }
- 
- /* pause when hover on wrapper */
- .carousel-wrapper:hover .carousel-track { animation-play-state: paused; }
- 
- /* card glass style (theme-aware) */
- .carousel-item {
-   flex: 0 0 360px;
-   border-radius: 18px;
-   overflow: hidden;
-   position: relative;
-   backdrop-filter: blur(12px) saturate(140%);
-   -webkit-backdrop-filter: blur(12px) saturate(140%);
-   background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
-   border: 1px solid var(--border-color);
-   box-shadow: var(--shadow);
-   transition: transform .28s ease, box-shadow .28s ease;
- }
- 
- /* dark-mode glass tweak (uses your theme) */
- [data-theme="dark"] .carousel-item {
-   background: linear-gradient(180deg, rgba(40,40,40,0.42), rgba(20,20,20,0.22));
-   border: 1px solid rgba(255,255,255,0.06);
-   box-shadow: 0 10px 30px rgba(0,0,0,0.45);
- }
- 
- /* light-mode glass tweak */
- [data-theme="light"] .carousel-item {
-   background: linear-gradient(180deg, rgba(255,255,255,0.42), rgba(250,250,250,0.18));
-   border: 1px solid rgba(0,0,0,0.06);
-   box-shadow: 0 8px 20px rgba(0,0,0,0.08);
- }
- 
- /* lift on hover */
- .carousel-item:hover { transform: translateY(-9px) scale(1.02); box-shadow: var(--shadow-hover); }
- 
- /* video fills top portion */
- .carousel-item video {
-   width: 100%;
-   height: 210px;
-   object-fit: cover;
-   display:block;
-   border-bottom: 1px solid rgba(0,0,0,0.05);
- }
- 
- /* caption area */
- .carousel-item .caption {
-   padding: 12px 14px;
-   font-size: 14px;
-   color: var(--text-secondary);
-   text-align: left;
-   font-weight: 500;
- }
+/* =========================
+   Carousel Wrapper
+========================= */
+.carousel-wrapper {
+  position: relative;
+  width: min(1200px, 94%);
+  margin: 0 auto;
+  height: 280px; /* enough space for cards + svg line */
+  display: block;
+  overflow: hidden;
+  z-index: 2; /* keep above SVG line */
+}
 
- .carousel-track {
-   z-index: 2; /* below the SVG line */
- }
-   
- .connect-line path {
-   filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
- }
- 
- 
- /* small decorative overlay to add soft glow */
- .carousel-item::after {
-   content: "";
-   position: absolute;
-   inset: 0;
-   pointer-events: none;
-   background: radial-gradient(600px 200px at 10% 10%, rgba(255,255,255,0.03), transparent 20%);
-   mix-blend-mode: overlay;
-   opacity: 0.9;
-   z-index: 0;
- }
- 
- /* seamless loop animation: translate by half of the track width (duplicate items) */
- @keyframes loopScroll {
-   0% { transform: translateX(0); }
-   100% { transform: translateX(-50%); }
- }
- 
- /* responsive sizes */
- @media (max-width: 1100px) {
-   .carousel-item { flex: 0 0 300px; }
-   .carousel-item video { height: 180px; }
-   .carousel-wrapper { height: 250px; }
- }
- 
- @media (max-width: 768px) {
-   .carousel-item { flex: 0 0 260px; }
-   .carousel-item video { height: 150px; }
-   .carousel-wrapper { height: 240px; width: 96%; }
- }
- 
- @media (max-width: 480px) {
-   .carousel-item { flex: 0 0 80%; }
-   .carousel-item video { height: 160px; }
-   .carousel-wrapper { height: auto; padding-bottom: 20px; }
- }
- 
- /* respect reduced motion */
- @media (prefers-reduced-motion: reduce) {
-   .carousel-track { animation: none; }
- }
+/* =========================
+   SVG Line
+========================= */
+.connect-line {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 210%;
+  height: 180px;
+  opacity: 0.5;
+  z-index: 0; /* behind everything */
+  pointer-events: none;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
+}
 
- .connect-line {
-   position: absolute;
-   top: 0;
-   left: 50%;
-   transform: translateX(-50%);
-   width: 210%;
-   height: 180px;
-   opacity: 0.5;
-   z-index: 0; /* behind everything */
-   pointer-events: none;
-   filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
- }
- 
- /* keep the carousel above */
- .carousel-wrapper {
-   position: relative;
-   z-index: 2;
- }
- 
-   
- .connect-line path {
-   animation: floatWave 10s ease-in-out infinite alternate;
- }
- 
- @keyframes floatWave {
-   0% { transform: translateY(0px); }
-   100% { transform: translateY(-4px); }
- }
+.connect-line path {
+  stroke: url(#lineGrad);
+  stroke-width: 6;
+  fill: none;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+  animation: floatWave 10s ease-in-out infinite alternate;
+}
+
+/* Floating wave animation */
+@keyframes floatWave {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-4px); }
+}
+
+/* =========================
+   Carousel Track
+========================= */
+.carousel-track {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 40px 20px;
+  will-change: transform;
+  animation: loopScroll 70s linear infinite;
+}
+
+/* Pause scroll on hover */
+.carousel-wrapper:hover .carousel-track {
+  animation-play-state: paused;
+}
+
+/* Loop scroll animation */
+@keyframes loopScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* =========================
+   Carousel Item (Card)
+========================= */
+.carousel-item {
+  flex: 0 0 360px;
+  border-radius: 18px;
+  overflow: hidden;
+  position: relative;
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow);
+  transition: transform .28s ease, box-shadow .28s ease;
+}
+
+/* Dark mode glass tweak */
+[data-theme="dark"] .carousel-item {
+  background: linear-gradient(180deg, rgba(40,40,40,0.42), rgba(20,20,20,0.22));
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+}
+
+/* Light mode tweak */
+[data-theme="light"] .carousel-item {
+  background: linear-gradient(180deg, rgba(255,255,255,0.42), rgba(250,250,250,0.18));
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+/* Lift on hover */
+.carousel-item:hover {
+  transform: translateY(-9px) scale(1.02);
+  box-shadow: var(--shadow-hover);
+}
+
+/* Video inside card */
+.carousel-item video {
+  width: 100%;
+  height: 210px;
+  object-fit: cover;
+  display: block;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+/* Caption */
+.carousel-item .caption {
+  padding: 12px 14px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-align: left;
+  font-weight: 500;
+}
+
+/* Decorative overlay */
+.carousel-item::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(600px 200px at 10% 10%, rgba(255,255,255,0.03), transparent 20%);
+  mix-blend-mode: overlay;
+  opacity: 0.9;
+  z-index: 0;
+}
+
+/* =========================
+   Responsive
+========================= */
+@media (max-width: 1100px) {
+  .carousel-item { flex: 0 0 300px; }
+  .carousel-item video { height: 180px; }
+  .carousel-wrapper { height: 250px; }
+}
+
+@media (max-width: 768px) {
+  .carousel-item { flex: 0 0 260px; }
+  .carousel-item video { height: 150px; }
+  .carousel-wrapper { height: 240px; width: 96%; }
+}
+
+@media (max-width: 480px) {
+  .carousel-wrapper {
+    height: 200px; /* fixed height to prevent collapse */
+    padding-bottom: 0;
+  }
+  .carousel-track {
+    position: relative; /* allow natural height */
+    padding: 0 10px;
+  }
+  .carousel-item {
+    flex: 0 0 80%;
+  }
+  .carousel-item video {
+    height: 160px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 360px) {
+  .carousel-item {
+    flex: 0 0 100%;
+  }
+  .carousel-item video {
+    height: 180px;
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel-track {
+    animation: loopScroll 30s linear infinite; /* faster on tablets/mobiles */
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-track {
+    animation: loopScroll 20s linear infinite; /* faster on phones */
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel-track {
+    animation-duration: 30s; /* faster */
+  }
+
+  .carousel-item {
+    backdrop-filter: blur(6px) saturate(120%);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-track {
+    animation-duration: 20s; /* fastest on phones */
+  }
+
+  .carousel-item {
+    backdrop-filter: blur(4px) saturate(110%);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+  }
+}
+
+
+
+/* Reduced motion support
+@media (prefers-reduced-motion: reduce) {
+  .carousel-track { animation: none; }
+  .connect-line path { animation: none; }
+} */
+
 
  /* ===== Activity: theme-aware fixes ===== */
 /* Use CSS variables for default (light) mode */
