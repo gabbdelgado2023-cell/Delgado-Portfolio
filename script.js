@@ -218,7 +218,7 @@
          },
          {
            title: "Personal Portfolio",
-           image: "/projects/portfolio.png",
+           image: "projects/portfolio.png",
          },
          {
            title: "iPhone 17 Ad Poster",
@@ -226,7 +226,7 @@
          },
          {
            title: "STORM (Mini App)",
-           image: "/projects/STORM.jpg",
+           image: "projects/STORM.jpg",
          },
        ];
    
