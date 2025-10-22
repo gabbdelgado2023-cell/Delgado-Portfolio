@@ -35,12 +35,7 @@
                overflow-x:hidden;
            }
    
-           /* =========================
-              Cursor
-              ========================= */
-           .cursor{position:fixed;width:20px;height:20px;border:2px solid var(--text-primary);border-radius:50%;pointer-events:none;z-index:9999;transition:all .12s ease;transform:translate(-50%,-50%);}
-           .cursor-follower{position:fixed;width:8px;height:8px;background:var(--text-primary);border-radius:50%;pointer-events:none;z-index:9998;transition:all .08s ease;transform:translate(-50%,-50%);}
-           .cursor.hover{width:40px;height:40px;border-color:transparent;background:var(--text-primary);mix-blend-mode:difference}
+           
    
            /* =========================
               Layout Controls
