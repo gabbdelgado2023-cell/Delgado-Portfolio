@@ -5,31 +5,11 @@ const body = document.body;
 const themeToggle = document.getElementById("themeToggle");
 const themeIcon = document.getElementById("themeIcon");
 const loader = document.querySelector(".page-loader");
-const cursor = document.querySelector(".cursor");
-const cursorFollower = document.querySelector(".cursor-follower");
 const hoverElements = document.querySelectorAll(
   "a, button, .nav-item, .skill-card, .stat-item, .contact-item, .project-card, .project-actions .btn"
 );
 const navItems = document.querySelectorAll(".nav-item");
 const sections = document.querySelectorAll(".section, .hero");
-
-/* =========================
-      Custom Cursor
-      ========================= */
-document.addEventListener("mousemove", (e) => {
-  cursor.style.left = e.clientX + "px";
-  cursor.style.top = e.clientY + "px";
-  setTimeout(() => {
-    cursorFollower.style.left = e.clientX + "px";
-    cursorFollower.style.top = e.clientY + "px";
-  }, 70);
-});
-
-hoverElements.forEach((el) => {
-  el.addEventListener("mouseenter", () => cursor.classList.add("hover"));
-  el.addEventListener("mouseleave", () => cursor.classList.remove("hover"));
-});
-
 /* =========================
       Theme Toggle
       ========================= */
